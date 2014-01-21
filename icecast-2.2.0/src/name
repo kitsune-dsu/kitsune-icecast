@@ -1,0 +1,6 @@
+connection.c:    stats->parser = parser;
+connection.c:    stats->con = con;
+stats.c:    if (stats) value = (char *)strdup(stats->value);
+stats.c:        cmp = strcmp(name, stats->name);
+stats.c:        cmp = strcmp(source, stats->source);
+stats.c:            stats->hidden = snode->hidden;

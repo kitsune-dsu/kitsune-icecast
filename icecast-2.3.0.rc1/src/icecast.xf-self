@@ -1,0 +1,4 @@
+
+struct _fserve_t.arg -> struct _fserve_t.arg: {
+  XF_INVOKE($xform(source_t, source_t), &$in, &$out);
+}

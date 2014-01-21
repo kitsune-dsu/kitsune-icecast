@@ -1,0 +1,13 @@
+
+stats_connection#statcon -> stats_connection#client: {
+  /* This is completely bogus!  But it's what ginseng does. */
+  $out = ($newtype(client_t) *)$in;
+}
+
+POST_INIT: {
+  stats_event((char const   *)((void *)0), "file_connections", "0");
+  stats_event((char const   *)((void *)0), "listener_connections", "0");
+  stats_event_time((char const   *)((void *)0), "server_start");
+  stats_event((char const*)((void*)0),"server","Icecast2.3.0.rc1");
+  auth_initialise();
+}

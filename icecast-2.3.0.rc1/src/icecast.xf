@@ -1,0 +1,188 @@
+{
+#include "thread/thread.h"
+#include <pthread.h>
+#include <ktthreads.h>
+
+/* thread starting structure */
+typedef struct thread_start_tag {
+    /* the real start routine and arg */
+    void *(*start_routine)(void *);
+    void *arg;
+
+    /* the other stuff we need to make sure this thread is inserted into
+    ** the thread tree
+    */
+    thread_type *thread;
+    pthread_t *sys_thread;
+} thread_start_t;
+
+void add_icecast_thread(char *name, void *(*start_routine)(void *), void *arg, char *update_pt) {
+    printf("Adding: %s\n", name);
+    thread_type *thread = NULL;
+    thread_start_t *start = NULL;
+    pthread_attr_t attr;
+    thread = (thread_type *)calloc(1, sizeof(thread_type));    
+    assert(thread != NULL);
+    start = (thread_start_t *)calloc(1, sizeof(thread_start_t));
+    assert(start != NULL);
+    if (pthread_attr_init (&attr) < 0)
+        assert(0);
+    
+    thread->line = 0;
+    thread->file = strdup("dsu.c");
+
+    /* Need to read the old thread counter to get a valid thread id */
+    int *old_next_tid = GET_OLD_STATIC(thread.c, _next_thread_id);
+    thread->thread_id = *old_next_tid;
+    (*old_next_tid)++;
+    
+    thread->name = strdup(name);
+    thread->create_time = time(NULL);
+    
+    start->start_routine = start_routine;
+    start->arg = arg;
+    start->thread = thread;
+    
+    pthread_attr_setinheritsched (&attr, PTHREAD_INHERIT_SCHED);
+    kitsune_thread_add(start, start_routine, update_pt, &attr);
+    pthread_attr_destroy (&attr);        
+}
+
+extern void stats_event(const char *source, const char *name, const char *value);
+void _kitsune_mainupdate_xform(void) {
+  stats_event((char const   *)((void *)0), "file_connections", "0");
+  stats_event((char const   *)((void *)0), "listener_connections", "0");
+  stats_event_time((char const   *)((void *)0), "server_start");
+  stats_event((char const*)((void*)0),"server","Icecast2.3.0.rc1");
+
+  kitsune_threads_reset();
+  ktthread_info *cur = NULL;
+  int found = 0;
+  while (cur = kitsune_threads_next()) {
+      if (cur->update_pt && strcmp(cur->update_pt, "connection_handle") == 0) {
+          if (found == 0) {
+              found = 1;
+          } else {
+              kitsune_thread_remove();
+          }
+      }
+  } 
+  void *(*auth_thread_fn)(void *) = GET_NEW_STATIC(auth.c, auth_run_thread);
+  add_icecast_thread("auth thread", auth_thread_fn, NULL, "auth");
+}
+}
+
+struct _refbuf_tag.len -> struct _refbuf_tag.len,
+struct source_tag.listeners -> struct source_tag.listeners: {
+  /* Handle conversion from long to unsigned long */
+  $out = (unsigned long)$in;
+}
+
+struct source_tag -> struct source_tag.peak_listeners: {
+  $out = (unsigned long)$in.listeners;
+}
+
+INIT auth.c/clients_to_auth: { $out = NULL; }
+INIT auth.c/auth_pending_count: { $out = 0; }
+INIT auth.c/auth_running: { $out = 1; }
+INIT auth.c/auth_lock: { thread_mutex_create((mutex_t *)&$out); }
+INIT auth.c/auth_thread: { /* TODO: launch the auth thread */ }
+
+INIT connection.c/tid: { 
+  $out = 0;
+  /* TODO: thread id for one connection thread, eliminate others */ 
+}
+INIT connection.c/_con_queue: {
+   $oldtype(con_queue_t) **tmp = kitsune_lookup_key_old("connection.c/_queue");
+   assert(tmp && !*tmp);
+   $out = NULL;
+}
+INIT connection.c/_con_queue_tail: { /* stick with default init */ }
+INIT connection.c/_con_queue_mutex: { thread_mutex_create((mutex_t *)&$out); }
+INIT connection.c/_req_queue: { $out = NULL; }
+INIT connection.c/_req_queue_tail: { /* stick with default init */ }
+INIT connection.c/_req_queue_mutex: { thread_mutex_create((mutex_t *)&$out); }
+
+INIT main.c/background: { $out = 0; /* this won't be read after starting up */ }
+INIT main.c/pidfile: {
+   $oldtype(ice_config_t) *old_config = kitsune_lookup_key_old("cfgfile.c/_current_configuration");
+   $out = old_config->pidfile;
+}
+
+_slave_thread_id -> slave.c/_slave_thread_id
+INIT slave.c/update_settings: {/* use default initialization*/}
+
+INIT source_fallback_file#file: {/* use default initialization*/}
+INIT source_fallback_file#mount: {/* use default initialization*/}
+
+struct ice_config_tag.listeners -> struct ice_config_tag.listeners,
+struct ice_global_tag.serversock -> struct ice_global_tag.serversock: {
+  memset($out, 0, sizeof(int)*20); /* 20 is the new array size */
+  memcpy($out, $in, sizeof(int)*10); /* 10 is the old array size */
+}
+
+struct log_tag.size -> struct log_tag.size,
+struct log_tag.trigger_level -> struct log_tag.trigger_level: { $out = (off_t)$in; }
+
+stats_connection#statcon -> stats_connection#client: {
+  $out = ($newtype(client_t) *)$in;
+  /* This is completely bogus!  But it's what ginseng does. */
+}
+stats_connection#local_event_mutex -> stats_connection#local_event_mutex: {
+  /* FIXME: why is this rule being demanded */
+}
+
+INIT cfgfile.c/_locks: {
+  void (*create_locks_fun)() = kitsune_lookup_key_new("cfgfile.c/create_locks");
+  create_locks_fun();
+  /* want to call a static function, so we need to look it up */
+}
+
+cache -> xslt.c/cache
+xsltlock -> xslt.c/xsltlock
+
+INIT struct _mount_proxy.intro_filename: { $out = NULL; }
+INIT struct _mount_proxy.mp3_meta_interval: { $out = -1; }
+INIT struct _mount_proxy.auth: { $out = malloc(sizeof($out)); }
+INIT struct _mount_proxy.on_connect,
+INIT struct _mount_proxy.on_disconnect,
+INIT struct _mount_proxy.stream_name,
+INIT struct _mount_proxy.stream_description,
+INIT struct _mount_proxy.stream_url,
+INIT struct _mount_proxy.stream_genre,
+INIT struct _mount_proxy.bitrate,
+INIT struct _mount_proxy.type,
+INIT struct _mount_proxy.subtype: { $out = 0; }
+INIT struct _mount_proxy.yp_public: { $out = -1; }
+
+INIT struct ice_config_tag.on_demand: { $out = 0; }
+INIT struct ice_config_tag.master_username: { $out = strdup("relay"); }
+
+INIT struct _fserve_t.callback,
+INIT struct _fserve_t.arg: { $out = NULL; }
+
+INIT struct _relay_server.on_demand: { $out = 0; }
+
+INIT struct _format_plugin_tag.read_bytes,
+INIT struct _format_plugin_tag.sent_bytes,
+INIT struct _format_plugin_tag.apply_settings: { $out = 0; }
+
+INIT struct connection_tag.discon_time: { $out = 0; }
+
+INIT struct _client_tag.authenticated,
+INIT struct _client_tag.intro_offset,
+INIT struct _client_tag.check_buffer,
+INIT struct _client_tag.auth: { $out = 0; }
+INIT struct _client_tag.password: { $out = strdup(""); }
+INIT struct _client_tag.write_to_client: {
+  $out = kitsune_lookup_key_new("format_generic_write_to_client");
+}
+
+INIT struct source_tag.client_stats_update,
+INIT struct source_tag.intro_file,
+INIT struct source_tag.peak_listeners,
+INIT struct source_tag.on_demand,
+INIT struct source_tag.on_demand_req: { $out = 0; }
+
+log.c/log_write#prior -> log.c/log_write#prior: {}
+

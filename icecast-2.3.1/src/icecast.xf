@@ -1,0 +1,66 @@
+{
+  #include "thread/thread.h"
+
+  #define event_queue_init(qp)    { (qp)->head = NULL; (qp)->tail = &(qp)->head; }
+
+extern void stats_event(const char *source, const char *name, const char *value);
+void _kitsune_mainupdate_xform(void) {
+  stats_event((char const*)((void*)0),"server","Icecast2.3.1");
+}
+
+}
+
+INIT struct _fserve_t.arg: {
+  if ($base.callback == kitsune_lookup_key_old("source_client_callback")) {
+    XF_INVOKE(XF_PTR($xform(source_t, source_t)), &$base.arg, &$out);
+  } else if ($base.callback == kitsune_lookup_key_old("stats_callback")) {
+    $out = NULL;
+  } else {
+    assert(0);
+  }
+}
+
+stats.c/_global_event_queue -> stats.c/_global_event_queue: {
+  $out.head = ($newtype(stats_event_t) *)$in;
+  if ($out.head == NULL) {
+    $out.tail = &$out.head;
+  } else {
+    $newtype(stats_event_t) *cur = $out.head;
+    while (cur->next)
+      cur = cur->next;
+    $out.tail = &cur->next;
+  }
+}
+
+INIT stats_connection#listener: {
+  event_queue_init (&$out.queue);
+  thread_mutex_create ((mutex_t *)&($out.mutex));
+  void (*reg_listener_fun)($newtype(event_listener_t) *);
+  reg_listener_fun = kitsune_lookup_key_new("stats.c/_register_listener");
+  reg_listener_fun(&$out);
+}
+
+INIT struct ice_config_tag.logsize,
+INIT struct ice_config_tag.logarchive,
+INIT struct log_tag.archive_timestamp: { $out = 0; } 
+
+struct _event_listener_tag.queue -> struct _event_listener_tag.queue: {
+  assert($in);
+  $out.head = *($newtype(stats_event_t) **)$in;
+  if ($out.head == NULL) {
+    $out.tail = &$out.head;
+  } else {
+    $newtype(stats_event_t) *cur = $out.head;
+    while (cur->next)
+      cur = cur->next;
+    $out.tail = &cur->next;
+  }
+}
+
+struct _event_listener_tag.mutex -> struct _event_listener_tag.mutex: {
+  thread_mutex_destroy((mutex_t *)$in);
+  thread_mutex_create((mutex_t *)&$out);
+  /* free($in); */
+}
+
+log.c/log_write#prior -> log.c/log_write#prior: {}

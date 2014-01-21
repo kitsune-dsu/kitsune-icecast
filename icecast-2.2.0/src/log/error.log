@@ -1,0 +1,77 @@
+[2011-10-26  10:39:14] INFO main/main Icecast 2.2.0 server started
+[2011-10-26  10:39:14] WARN main/main YP server handling has been disabled
+[2011-10-26  10:40:40] INFO main/main Icecast 2.2.0 server started
+[2011-10-26  10:40:40] WARN main/main YP server handling has been disabled
+[2011-10-26  11:05:42] INFO main/main Icecast 2.2.0 server started
+[2011-10-26  11:05:42] WARN main/main YP server handling has been disabled
+[2011-10-26  11:08:05] INFO main/main Icecast 2.2.0 server started
+[2011-10-26  11:08:05] WARN main/main YP server handling has been disabled
+[2011-10-26  11:29:14] INFO main/main Icecast 2.2.0 server started
+[2011-10-26  11:29:14] WARN main/main YP server handling has been disabled
+[2011-10-26  13:26:52] INFO main/main Icecast 2.2.0 server started
+[2011-10-26  13:26:52] WARN main/main YP server handling has been disabled
+[2011-10-26  13:53:09] INFO main/main Icecast 2.2.0 server started
+[2011-10-26  13:53:09] WARN main/main YP server handling has been disabled
+[2011-10-26  13:53:09] INFO fserve/fserv_thread_function file serving thread started
+[2011-10-26  14:04:13] INFO main/main Icecast 2.2.0 server started
+[2011-10-26  14:04:13] WARN main/main YP server handling has been disabled
+[2011-10-26  14:21:17] INFO main/main Icecast 2.2.0 server started
+[2011-10-26  14:21:17] WARN main/main YP server handling has been disabled
+[2011-10-26  14:27:00] INFO main/main Icecast 2.2.0 server started
+[2011-10-26  14:27:00] WARN main/main YP server handling has been disabled
+[2011-10-26  14:27:06] INFO fserve/fserv_thread_function file serving thread started
+[2011-10-26  14:27:16] INFO main/main Icecast 2.2.0 server started
+[2011-10-26  14:27:16] WARN main/main YP server handling has been disabled
+[2011-10-26  14:27:22] INFO fserve/fserv_thread_function file serving thread started
+[2011-10-26  14:36:00] INFO main/main Icecast 2.2.0 server started
+[2011-10-26  14:36:00] WARN main/main YP server handling has been disabled
+[2011-10-26  14:36:00] INFO fserve/fserv_thread_function file serving thread started
+[2011-10-26  14:36:12] INFO fserve/fserv_thread_function file serving thread started
+[2011-10-26  14:39:24] INFO main/main Icecast 2.2.0 server started
+[2011-10-26  14:39:24] WARN main/main YP server handling has been disabled
+[2011-10-26  14:39:31] INFO fserve/fserv_thread_function file serving thread started
+[2011-10-26  14:40:33] INFO main/main Icecast 2.2.0 server started
+[2011-10-26  14:40:33] WARN main/main YP server handling has been disabled
+[2011-10-26  14:40:38] INFO fserve/fserv_thread_function file serving thread started
+[2011-10-26  14:42:22] INFO main/main Icecast 2.2.0 server started
+[2011-10-26  14:42:22] WARN main/main YP server handling has been disabled
+[2011-10-26  14:42:39] INFO fserve/fserv_thread_function file serving thread started
+[2011-10-26  14:42:52] INFO main/main Icecast 2.2.0 server started
+[2011-10-26  14:42:52] WARN main/main YP server handling has been disabled
+[2011-10-26  14:42:54] INFO sighandler/_sig_die Caught signal 2, shutting down...
+[2011-10-26  14:42:54] INFO connection/_destroy_pool All connection threads down
+[2011-10-26  14:42:54] INFO main/main Shutting down
+[2011-10-26  14:42:54] INFO fserve/fserve_shutdown file serving thread stopped
+[2011-10-26  14:42:55] INFO slave/_slave_thread Slave thread shutdown complete
+[2011-10-26  14:42:55] INFO stats/stats_shutdown stats thread finished
+[2011-10-26  14:43:02] INFO main/main Icecast 2.2.0 server started
+[2011-10-26  14:43:02] WARN main/main YP server handling has been disabled
+[2011-10-26  14:43:29] INFO fserve/fserv_thread_function file serving thread started
+[2011-10-26  14:44:23] INFO main/main Icecast 2.2.0 server started
+[2011-10-26  14:44:23] WARN main/main YP server handling has been disabled
+[2011-10-26  14:44:23] INFO fserve/fserv_thread_function file serving thread started
+[2011-10-26  14:45:10] INFO fserve/fserv_thread_function file serving thread started
+[2011-10-26  14:47:13] INFO main/main Icecast 2.2.0 server started
+[2011-10-26  14:47:13] WARN main/main YP server handling has been disabled
+[2011-10-26  14:47:18] INFO fserve/fserv_thread_function file serving thread started
+[2011-10-26  14:54:00] INFO main/main Icecast 2.2.0 server started
+[2011-10-26  14:54:00] WARN main/main YP server handling has been disabled
+[2011-10-26  14:54:09] INFO fserve/fserv_thread_function file serving thread started
+[2011-10-26  14:56:37] INFO main/main Icecast 2.2.0 server started
+[2011-10-26  14:56:37] WARN main/main YP server handling has been disabled
+[2011-10-26  14:56:44] INFO fserve/fserv_thread_function file serving thread started
+[2011-10-26  15:15:11] INFO main/main Icecast 2.2.0 server started
+[2011-10-26  15:15:11] WARN main/main YP server handling has been disabled
+[2011-10-26  15:15:17] INFO fserve/fserv_thread_function file serving thread started
+[2011-10-26  18:56:54] INFO main/main Icecast 2.2.0 server started
+[2011-10-26  18:56:54] WARN main/main YP server handling has been disabled
+[2011-10-26  18:56:54] INFO fserve/fserv_thread_function file serving thread started
+[2011-10-26  18:57:50] INFO fserve/fserv_thread_function file serving thread started
+[2011-10-26  19:19:24] INFO main/main Icecast 2.2.0 server started
+[2011-10-26  19:19:24] WARN main/main YP server handling has been disabled
+[2011-10-26  19:21:55] INFO sighandler/_sig_die Caught signal 2, shutting down...
+[2011-10-26  19:21:55] INFO connection/_destroy_pool All connection threads down
+[2011-10-26  19:21:55] INFO main/main Shutting down
+[2011-10-26  19:21:55] INFO fserve/fserve_shutdown file serving thread stopped
+[2011-10-26  19:21:56] INFO slave/_slave_thread Slave thread shutdown complete
+[2011-10-26  19:21:56] INFO stats/stats_shutdown stats thread finished

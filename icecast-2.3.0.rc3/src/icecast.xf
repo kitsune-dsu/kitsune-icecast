@@ -1,0 +1,18 @@
+{
+extern void stats_event(const char *source, const char *name, const char *value);
+void _kitsune_mainupdate_xform(void) {
+  stats_event((char const*)((void*)0),"server","Icecast2.3.0.rc3");
+}
+}
+
+INIT struct _fserve_t.arg: {
+  if ($base.callback == kitsune_lookup_key_old("source_client_callback")) {
+    XF_INVOKE(XF_PTR($xform(source_t, source_t)), &$base.arg, &$out);
+  } else if ($base.callback == kitsune_lookup_key_old("stats_callback")) {
+    $out = NULL;
+  } else {
+    assert(0);
+  }
+}
+
+log.c/log_write#prior -> log.c/log_write#prior: {}
